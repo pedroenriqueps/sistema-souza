@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 import { useState } from "react";
-import { CiMenuFries } from "react-icons/ci";
+import { CiDeliveryTruck, CiMenuFries } from "react-icons/ci";
 import Link from "next/link"
 import { AiOutlineShopping } from "react-icons/ai"
 import { GiMoneyStack } from "react-icons/gi"
@@ -43,6 +43,11 @@ export function HeaderMenuBar() {
                             <li>
                                 <Link href="/" className="flex justify-start items-center hover:text-slate-400">
                                     <IoHomeOutline className="mr-2" size={22} /> Produtos
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/dashboard/deliveries" className="flex justify-start items-center hover:text-slate-400">
+                                    <CiDeliveryTruck className="mr-2" size={22} /> Entregas
                                 </Link>
                             </li>
                             <li>
