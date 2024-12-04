@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(allProducts, { status: 200 });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Erro ao buscar o produto:", error);
         return NextResponse.json(
-            { message: "Erro interno do servidor.", error: error.message },
+            { message: "Erro interno do servidor.", error: (error as Error).message },
             { status: 500 }
         );
     }

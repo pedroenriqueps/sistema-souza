@@ -77,10 +77,10 @@ export async function POST(request: NextRequest) {
             { message: "Compra registrada com sucesso", data: newDataClient },
             { status: 201 }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Erro ao registrar compra:', error);
         return NextResponse.json(
-            { message: "Erro interno do servidor", error: error.message },
+            { message: "Erro interno do servidor", error: (error as Error).message },
             { status: 500 }
         );
     }
