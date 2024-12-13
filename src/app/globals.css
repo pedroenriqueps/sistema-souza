@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.buttons-forms {
+    @apply bg-slate-950 text-white font-semibold text-base rounded-md h-12 px-4 self-center mt-4
+}
+
+.skeleton-forms {
+    @apply flex flex-col text-black p-4
+}
+
+.list-items {
+    @apply bg-slate-800 p-4 text-white font-semibold font-sans overflow-y-auto border border-slate-600 shadow-lg
+}
+
+.list-item-li {
+    @apply flex flex-col rounded-md p-4 mb-3 bg-green-600 shadow-md
+}
+
+.title-h1 {
+    @apply text-3xl text-center font-semibold my-3
+}
+
+select option:disabled {
+    color: #c5c4c4;
+    font-size: 0.875rem
+}
