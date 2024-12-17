@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model CreateUser {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  @@map("create_user")
+}
+
+model DataClientShopping {
+  id                 Int            @id @default(autoincrement())
+  supplierName       String
+  dateShopping       DateTime
+  numberInstallments Int
+  itemsShopping      ItemShopping[]
+
+  @@map("data_client_shopping")
+}
+
+model ItemShopping {
+  id           Int                @id @default(autoincrement())
+  productName  String
+  quantity     Int
+  valueUnit    Decimal
+  percentage   Float
+  dataClientId Int
+  dataClient   DataClientShopping @relation(fields: [dataClientId], references: [id])
+
+  @@map("items_shopping")
+}
+
+model Suppliers {
+  id          Int    @id @default(autoincrement())
+  newSupplier String @unique
+
+  @@map("suppliers")
+}
+
+model DataClientSale {
+  id                  Int        @id @default(autoincrement())
+  clientName          String
+  dateSale            DateTime
+  delivery            String
+  neighborhood        String?
+  road                String?
+  houseNumber         Int?
+  reference           String?
+  paymentMethod       String
+  paymentInstallments String
+  itemsSale           ItemSale[] @relation("DataClientToItems")
+
+  @@map("data_client_sale")
+}
+
+model ItemSale {
+  id           Int            @id @default(autoincrement())
+  productName  String
+  quantity     Int
+  valueUnit    Decimal
+  dataClientId Int
+  dataClient   DataClientSale @relation("DataClientToItems", fields: [dataClientId], references: [id])
+
+  @@map("items_sale")
+}
+
+model stock {
+  id          Int     @id @default(autoincrement())
+  productName String  @unique
+  valueUnit   Decimal
+  quantity    Int
+}
