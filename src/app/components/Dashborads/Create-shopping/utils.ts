@@ -1,5 +1,4 @@
 import * as yup from "yup"
-import { toast } from "react-toastify"
 
 export const schemaProducts = yup.object().shape({
     productName: yup
@@ -50,11 +49,4 @@ export const schemaDataShopping = yup.object().shape({
         .min(1, "Pelo menos um item de compra deve ser informado")
         .required("Itens de compra são obrigatórios"),
 });
-export const showYupErrors = (errors: any) => {
-    for (const key in errors) {
-        if (errors[key]) {
-            toast.error(errors[key]?.message);
-            return;
-        }
-    }
-};
+

@@ -3,7 +3,8 @@ import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputField } from "../../Input-field/Input-field";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaProducts, showYupErrors } from "./utils";
+import { schemaProducts } from "./utils";
+import { showYupErrors } from "@/utils/show-errors"
 import { toast } from "react-toastify";
 import { FiTrash } from "react-icons/fi";
 import { useStock } from "@/context/stock/stock";

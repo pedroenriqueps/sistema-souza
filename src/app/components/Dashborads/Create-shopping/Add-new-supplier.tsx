@@ -34,13 +34,20 @@ export function AddNewSupplier({ setModalSuppliersProp, addSupplier }: NewSuppli
             setModalSuppliersProp(false);
             toast.success("Novo fornecedor adicionado")
             return response.data
-        } catch (error: any) {
-            if (error.response) {
-                toast.error(`Erro: ${error.response.data.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
-            } else if (error.request) {
-                toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
-            } else {
+        } catch (error: unknown) {
+            console.error("Houve um erro ao adicionar fornecedor: ", error);
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    toast.error(`Erro: ${error.response.data?.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
+                } else if (error.request) {
+                    toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
+                } else {
+                    toast.error("Erro inesperado: " + error.message);
+                }
+            } else if (error instanceof Error) {
                 toast.error("Erro inesperado: " + error.message);
+            } else {
+                toast.error("Erro desconhecido.");
             }
         }
     };

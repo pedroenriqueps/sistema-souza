@@ -52,6 +52,7 @@ export function FormClientSale() {
             return;
         }
         setIsLoading(true);
+
         try {
             const dateParts = data.dateSale.split("/");
             const saleDate = new Date(
@@ -65,10 +66,10 @@ export function FormClientSale() {
                 delivery: data.delivery,
                 paymentMethod: data.paymentMethod,
                 paymentInstallments: data.paymentInstallments,
-                neighborhood: data.neighborhood,
-                road: data.road,
-                houseNumber: data.houseNumber,
-                reference: data.reference,
+                neighborhood: data.delivery === "yes" ? data.neighborhood : null,
+                road: data.delivery === "yes" ? data.road : null,
+                houseNumber: data.delivery === "yes" ? data.houseNumber : null,
+                reference: data.delivery === "yes" ? data.reference : null,
             };
 
             const response = await axios.post("/api/dashboard/create-sale", {
@@ -100,6 +101,7 @@ export function FormClientSale() {
             setIsLoading(false);
         }
     };
+
 
     return (
         <>

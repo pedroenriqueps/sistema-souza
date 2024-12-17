@@ -4,7 +4,7 @@ import { InputField } from "../../Input-field/Input-field";
 import { schemaProductsSale } from "./utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FiTrash } from "react-icons/fi";
-import { showYupErrors } from "../Create-shopping/utils";
+import { showYupErrors } from "@/utils/show-errors";
 import { toast } from "react-toastify";
 import { useStock } from "@/context/stock/stock";
 import { AxiosError } from "axios";

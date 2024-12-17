@@ -8,10 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FormProducts, FormProductsDataInterface } from "./Form-products-shopping";
-import { schemaClient, showYupErrors } from "./utils";
+import { schemaClient } from "./utils";
 import { LoadingSkeleton } from "../../Loading/Loading-skeleton";
+import { showYupErrors } from "@/utils/show-errors";
 
-interface FormClientDataInterface {
+export interface FormClientDataInterface {
     supplierName: string;
     dateShopping: string;
     numberInstallments: number;
@@ -42,15 +43,21 @@ export function FormClientData() {
                     toast.error("Erro ao buscar fornecedores: resposta inválida.");
                 }
 
-            } catch (error: any) {
+            } catch (error: unknown) {
                 console.error("Houve um erro ao buscar fornecedor", error);
-                if (error.response) {
-                    toast.error(`Erro: ${error.response.data.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
-                    return
-                } else if (error.request) {
-                    toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
-                } else {
+                if (axios.isAxiosError(error)) {
+                    if (error.response) {
+                        toast.error(`Erro: ${error.response.data.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
+                        return
+                    } else if (error.request) {
+                        toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
+                    } else {
+                        toast.error("Erro inesperado: " + error.message);
+                    }
+                } else if (error instanceof Error) {
                     toast.error("Erro inesperado: " + error.message);
+                } else {
+                    toast.error("Erro desconhecido.");
                 }
             }
         };
@@ -83,15 +90,16 @@ export function FormClientData() {
                 setItemsShopping([])
                 reset();
             }
-        } catch (error: any) {
-            console.error("Houve um erro ao criar fornecedor", error);
-
-            if (error.response) {
-                toast.error(`Erro: ${error.response.data.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
-            } else if (error.request) {
-                toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
-            } else {
-                toast.error("Erro inesperado: " + error.message);
+        } catch (error: unknown) {
+            console.error("Houve um erro ao criar compra", error);
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    toast.error(`Erro: ${error.response.data.message || 'Algo deu errado!'} - Código: ${error.response.status}`);
+                } else if (error.request) {
+                    toast.error("Erro de rede: Não foi possível se comunicar com o servidor.");
+                } else {
+                    toast.error("Erro inesperado: " + error.message);
+                }
             }
         } finally {
             setIsLoading(false);
@@ -136,7 +144,7 @@ export function FormClientData() {
                             <option value="" disabled>
                                 Selecione um fornecedor
                             </option>
-                            {suppliers.map((item: any, index: number) => (
+                            {suppliers.map((item: NewSuplierDataForm, index: number) => (
                                 <option key={index} value={item.newSupplier}>
                                     {item.newSupplier}
                                 </option>
