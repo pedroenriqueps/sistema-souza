@@ -22,13 +22,13 @@ export async function GET() {
             },
             { status: 200 }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Erro ao buscar dados:", error);
         return NextResponse.json(
             {
                 status: "error",
                 message: "Erro ao buscar os dados do estoque",
-                error: error.message,
+                error: (error as Error).message,
             },
             { status: 500 }
         );

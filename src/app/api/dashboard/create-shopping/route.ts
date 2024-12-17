@@ -1,10 +1,18 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { parseISO, isValid } from "date-fns";
+import { FormClientDataInterface } from "@/app/components/Dashborads/Create-shopping/Form-client-shopping"
+import { FormProductsDataInterface } from "@/app/components/Dashborads/Create-shopping/Form-products-shopping"
+
+interface RequestBody {
+    dataClient: FormClientDataInterface;
+    itemsShopping: FormProductsDataInterface[];
+}
 
 export async function POST(request: NextRequest) {
     try {
-        const { dataClient, itemsShopping } = await request.json();
+        const { dataClient, itemsShopping }: RequestBody = await request.json();
+
         const { supplierName, dateShopping, numberInstallments } = dataClient;
 
         if (!supplierName || !dateShopping || !numberInstallments) {
@@ -42,7 +50,6 @@ export async function POST(request: NextRequest) {
         });
 
         for (const item of itemsShopping) {
-
             const existingStock = await prisma.stock.findFirst({
                 where: { productName: item.productName },
             });
@@ -50,7 +57,6 @@ export async function POST(request: NextRequest) {
             const updatedValueUnit = item.valueUnit * 1.50;
 
             if (existingStock) {
-
                 await prisma.stock.update({
                     where: { id: existingStock.id },
                     data: {
@@ -58,9 +64,7 @@ export async function POST(request: NextRequest) {
                         valueUnit: { set: updatedValueUnit }
                     },
                 });
-
             } else {
-
                 await prisma.stock.create({
                     data: {
                         productName: item.productName,
@@ -68,10 +72,8 @@ export async function POST(request: NextRequest) {
                         quantity: item.quantity,
                     },
                 });
-
             }
         }
-
 
         return NextResponse.json(
             { message: "Compra registrada com sucesso", data: newDataClient },
