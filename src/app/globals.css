@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .buttons-forms {
-    @apply bg-slate-950 text-white font-semibold text-base rounded-md h-12 px-4 self-center mt-4
+    @apply bg-slate-950 text-white font-semibold text-base rounded-md h-12 px-4 self-center mt-4 cursor-pointer
 }
 
 .skeleton-forms {
